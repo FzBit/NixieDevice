@@ -1,7 +1,7 @@
 /*
  * @Author: Zale
  * @Date: 2020-02-02 20:54:31
- * @LastEditTime : 2020-02-05 22:41:37
+ * @LastEditTime : 2020-02-05 22:49:42
  * @LastEditors  : Please set LastEditors
  * @Description  : Sth30模块驱动
  * @FilePath: \Nixie\App\Sth30.c
@@ -27,17 +27,18 @@ void Sth30_Init()
     Sth30_GPIO_Init.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
     Sth30_GPIO_Init.GPIO_Mode = GPIO_Mode_AF_OD;
     Sth30_GPIO_Init.GPIO_Speed = GPIO_Speed_50MHz;
+    
 
     GPIO_Init(GPIOB, &Sth30_GPIO_Init);
-    GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,GPIO_AF_I2C2); 
-    GPIO_PinAFConfig(GPIOB,GPIO_PinSource7,GPIO_AF_I2C2);
+    // GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,); 
+    // GPIO_PinAFConfig(GPIOB,GPIO_PinSource7,GPIO_AF_I2C2);
     //I2C模块配置
     Sth30_I2C_Init->I2C_Mode=I2C_Mode_I2C;
-    Sth30_I2C_Init.I2C_DutyCycle = I2C_DutyCycle_2;
+    Sth30_I2C_Init->I2C_DutyCycle = I2C_DutyCycle_2;
     //Sth30_I2C_Init.I2C_OwnAddress1 = 0XA0;//主机的地址        
-    Sth30_I2C_Init.I2C_Ack = I2C_Ack_Enable;
-    Sth30_I2C_Init.I2C_AcknowledgedAddress= I2C_AcknowledgedAddress_7bit;
-    Sth30_I2C_Init.I2C_ClockSpeed = 100000;//100KHZ
+    Sth30_I2C_Init->I2C_Ack = I2C_Ack_Enable;
+    Sth30_I2C_Init->I2C_AcknowledgedAddress= I2C_AcknowledgedAddress_7bit;
+    Sth30_I2C_Init->I2C_ClockSpeed = 100000;//100KHZ
 
     I2C_Init(I2C2,Sth30_I2C_Init);
 }
@@ -88,7 +89,7 @@ uint8_t Sth30_Write(char* pBuffer,uint8_t Length)
         pBuffer++;
     }
     I2C_GenerateSTOP(I2C2, ENABLE);
-    while ((I2Cx->CR1&0x200) == 0x200)
+    while ((I2C2->CR1&0x200) == 0x200)
     {
             i++;
             if(i>1000)
@@ -121,7 +122,7 @@ uint8_t Sth30_Read(char* pBuffer, uint8_t Length)
     I2C_GenerateSTART(I2C2, ENABLE);
     while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
     /* 4.设备地址·/读 */
-    I2C_Send7bitAddress(I2C2, SlaveAddress, I2C_Direction_Receiver);
+    I2C_Send7bitAddress(I2C2, STH30_I2C_ADDR, I2C_Direction_Receiver);
     while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
 
     /* 5.连续写数据 */
@@ -134,7 +135,7 @@ uint8_t Sth30_Read(char* pBuffer, uint8_t Length)
         }
 
         while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_RECEIVED));  /* EV7 */
-        *pBuffer++ = I2C_ReceiveData(I2Cx);
+        *pBuffer++ = I2C_ReceiveData(I2C2);
         Length--;
     }
 
