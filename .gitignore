@@ -51,7 +51,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-
+.vscode
 Debug/Obj/main.pbi
 Debug/Obj/main.pbi.xcl
 Debug/Obj/misc.pbi
