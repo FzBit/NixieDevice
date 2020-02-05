@@ -1,7 +1,7 @@
 /*
  * @Author: Zale
  * @Date: 2020-02-02 20:54:31
- * @LastEditTime : 2020-02-05 22:39:38
+ * @LastEditTime : 2020-02-05 22:41:37
  * @LastEditors  : Please set LastEditors
  * @Description  : Sth30模块驱动
  * @FilePath: \Nixie\App\Sth30.c
@@ -114,7 +114,7 @@ uint8_t Sth30_Read(char* pBuffer, uint8_t Length)
     I2C_GenerateSTART(I2C2, ENABLE);
     while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
     /* 2.设备地址·/写 */
-    I2C_Send7bitAddress(I2C2, SlaveAddress, I2C_Direction_Transmitter);
+    I2C_Send7bitAddress(I2C2, STH30_I2C_ADDR, I2C_Direction_Transmitter);
     while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
 
     /* 3.开始*/
