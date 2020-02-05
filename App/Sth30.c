@@ -1,8 +1,8 @@
 /*
  * @Author: Zale
  * @Date: 2020-02-02 20:54:31
- * @LastEditTime : 2020-02-05 21:39:12
- * @LastEditors  : Zale
+ * @LastEditTime : 2020-02-05 22:39:38
+ * @LastEditors  : Please set LastEditors
  * @Description  : Sth30模块驱动
  * @FilePath: \Nixie\App\Sth30.c
  */
@@ -103,37 +103,42 @@ uint8_t Sth30_Write(char* pBuffer,uint8_t Length)
  * @Author: Zale
  * @brief : 读取Sth30模块数据
  * @param : Length 读取的数据长度 
+ * @param : pBuffer 读取数据存储到的数组
  * @retval : 
  */
-uint8_t Sth30_Read(uint8_t Length)
+uint8_t Sth30_Read(char* pBuffer, uint8_t Length)
 {
     while(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));  
     I2C_AcknowledgeConfig(I2C2, ENABLE);
     /* 1.开始*/
-    I2C_GenerateSTART(I2Cx, ENABLE);
-    while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_MODE_SELECT));
+    I2C_GenerateSTART(I2C2, ENABLE);
+    while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
     /* 2.设备地址·/写 */
-    I2C_Send7bitAddress(I2Cx, SlaveAddress, I2C_Direction_Transmitter);
-    while (!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+    I2C_Send7bitAddress(I2C2, SlaveAddress, I2C_Direction_Transmitter);
+    while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
 
     /* 3.开始*/
-    I2C_GenerateSTART(I2Cx, ENABLE);
-    while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_MODE_SELECT));
+    I2C_GenerateSTART(I2C2, ENABLE);
+    while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
     /* 4.设备地址·/读 */
-    I2C_Send7bitAddress(I2Cx, SlaveAddress, I2C_Direction_Receiver);
-    while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
+    I2C_Send7bitAddress(I2C2, SlaveAddress, I2C_Direction_Receiver);
+    while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
 
     /* 5.连续写数据 */
-    while (NumByteToRead)
+    while (Length)
     {
-        if(NumByteToRead==1)
+        if(Length==1)
         {
-            I2C_AcknowledgeConfig(I2Cx, DISABLE);
-            I2C_GenerateSTOP(I2Cx, ENABLE);//6.停止，非应答
+            I2C_AcknowledgeConfig(I2C2, DISABLE);
+            I2C_GenerateSTOP(I2C2, ENABLE);//6.停止，非应答
         }
 
-        while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_BYTE_RECEIVED));  /* EV7 */
+        while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_RECEIVED));  /* EV7 */
         *pBuffer++ = I2C_ReceiveData(I2Cx);
-        NumByteToRead--;
+        Length--;
+    }
+
+    I2C_AcknowledgeConfig(I2C2, ENABLE);
+    return 0;
 
 }
