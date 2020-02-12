@@ -38,6 +38,7 @@ void I2C_Sim_Stop();
     delay_us(4);
     SDA_H;
     delay_us(5);
+    SCL_H;
     
 }
 
