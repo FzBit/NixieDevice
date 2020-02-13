@@ -10,11 +10,26 @@
 #define I2C_SIM_H
 #include <public.h>
 
-#define SDA_H GPIO_SetBits(GPIOA,GPIO_Pin_6)
-#define SDA_L GPIO_ResetBits(GPIOA,GPIO_Pin_6)
-#define SCL_H GPIO_SetBits(GPIOA,GPIO_Pin_7)
-#define SCL_L GPIO_ResetBits(GPIOA,GPIO_Pin_7)
+#define SDA_H_0 GPIO_SetBits(GPIOA,GPIO_Pin_3)
+#define SDA_L_0 GPIO_ResetBits(GPIOA,GPIO_Pin_3)
+#define SCL_H_0 GPIO_SetBits(GPIOA,GPIO_Pin_4)
+#define SCL_L_0 GPIO_ResetBits(GPIOA,GPIO_Pin_4)
+
+#define SDA_H_1 GPIO_SetBits(GPIOA,GPIO_Pin_6)
+#define SDA_L_1 GPIO_ResetBits(GPIOA,GPIO_Pin_6)
+#define SCL_H_1 GPIO_SetBits(GPIOA,GPIO_Pin_7)
+#define SCL_L_1 GPIO_ResetBits(GPIOA,GPIO_Pin_7)
+
+
+
 #define I2C_Delay delay_us(6)
+
+typedef enum I2C_Sim_x
+{
+    I2C_Sim_0 = 0;      //模拟I2C0，SDA-A3 SCL-A4
+    I2C_Sim_1 = 1;      //模拟I2C1，SDA-A6 SCL-A7
+};
+
 
 void I2C_Sim_Start();
 void I2C_Sim_Stop();

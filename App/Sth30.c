@@ -1,7 +1,7 @@
 /*
  * @Author: Zale
  * @Date: 2020-02-02 20:54:31
- * @LastEditTime : 2020-02-07 15:24:52
+ * @LastEditTime : 2020-02-13 23:01:56
  * @LastEditors  : Please set LastEditors
  * @Description  : Sth30模块驱动
  * @FilePath: \Nixie\App\Sth30.c
@@ -11,7 +11,7 @@
 
 
 /**
- * @Author: Zale 
+ * @author: Zale 
  * @brief: STH30驱动初始化
  * @param : 无
  * @retval:  无
@@ -44,7 +44,7 @@ void Sth30_Init()
 }
 
 /**
- * @Author: Zale
+ * @author: Zale
  * @brief : STH30模块写入数据
  * @param : pBuffer 待写入数组指针
  * @param : Length 待写入数组长度
@@ -101,7 +101,7 @@ uint8_t Sth30_Write(char* pBuffer,uint8_t Length)
 }
 
 /**
- * @Author: Zale
+ * @author: Zale
  * @brief : 读取Sth30模块数据
  * @param : Length 读取的数据长度 
  * @param : pBuffer 读取数据存储到的数组
