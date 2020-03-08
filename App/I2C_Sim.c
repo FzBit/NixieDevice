@@ -1,8 +1,8 @@
 /*
  * @Author: Zale
  * @Date: 2020-02-07 15:33:20
- * @LastEditTime : 2020-02-13 23:17:48
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-03-08 11:46:33
+ * @LastEditors: Please set LastEditors
  * @Description: 模拟I2C驱动模块
  * @FilePath: \Nixie\App\I2C_Sim.c
  */
@@ -38,6 +38,7 @@ void I2C_Sim_Start()
     SDA_L_1;
     delay_us(6);
     SCL_L_1;
+    delay_us(5);
 }
 
 /**
@@ -50,9 +51,12 @@ void I2C_Sim_Start()
 void I2C_Sim_Stop();
 {
     SCL_L_1;
+    SDA_L_1;
     delay_us(4);
     SDA_H_1;
     delay_us(5);
     SCL_H_1;
+    delay_us(5);
 }
+
 

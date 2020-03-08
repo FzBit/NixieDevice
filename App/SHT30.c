@@ -1,57 +1,61 @@
 /*
  * @Author: Zale
  * @Date: 2020-02-02 20:54:31
- * @LastEditTime : 2020-02-13 23:01:56
- * @LastEditors  : Please set LastEditors
- * @Description  : Sth30模块驱动
- * @FilePath: \Nixie\App\Sth30.c
+ * @LastEditTime: 2020-03-08 11:17:43
+ * @LastEditors: Please set LastEditors
+ * @Description  : SHT30模块驱动
+ * @FilePath: \Nixie\App\SHT30.c
  */
 
-#include <Sth30.h>
+#include <SHT30.h>
 
 
 /**
  * @author: Zale 
- * @brief: STH30驱动初始化
+ * @brief: SHT30驱动初始化
  * @param : 无
  * @retval:  无
  */
-void Sth30_Init()
+void SHT30_Init()
 {
-    I2C_InitTypeDef* Sth30_I2C_Init;
+    I2C_InitTypeDef* SHT30_I2C_Init;
 
-    GPIO_InitTypeDef  Sth30_GPIO_Init;
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);
-    RCC_AHB1PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);   
-    //引脚配置
-    Sth30_GPIO_Init.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
-    Sth30_GPIO_Init.GPIO_Mode = GPIO_Mode_AF_OD;
-    Sth30_GPIO_Init.GPIO_Speed = GPIO_Speed_50MHz;
     
 
-    GPIO_Init(GPIOB, &Sth30_GPIO_Init);
+    GPIO_InitTypeDef  SHT30_GPIO_Init;
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);
+    //RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);   
+    //引脚配置
+    /*
+    SHT30_GPIO_Init.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+    SHT30_GPIO_Init.GPIO_Mode = GPIO_Mode_AF_OD;
+    SHT30_GPIO_Init.GPIO_Speed = GPIO_Speed_50MHz;
+    
+
+    GPIO_Init(GPIOB, &SHT30_GPIO_Init);
     // GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,); 
     // GPIO_PinAFConfig(GPIOB,GPIO_PinSource7,GPIO_AF_I2C2);
+    */
     //I2C模块配置
-    Sth30_I2C_Init->I2C_Mode=I2C_Mode_I2C;
-    Sth30_I2C_Init->I2C_DutyCycle = I2C_DutyCycle_2;
-    //Sth30_I2C_Init.I2C_OwnAddress1 = 0XA0;//主机的地址        
-    Sth30_I2C_Init->I2C_Ack = I2C_Ack_Enable;
-    Sth30_I2C_Init->I2C_AcknowledgedAddress= I2C_AcknowledgedAddress_7bit;
-    Sth30_I2C_Init->I2C_ClockSpeed = 100000;//100KHZ
+    SHT30_I2C_Init->I2C_Mode=I2C_Mode_I2C;
+    SHT30_I2C_Init->I2C_DutyCycle = I2C_DutyCycle_2;
+    //SHT30_I2C_Init.I2C_OwnAddress1 = 0XA0;//主机的地址        
+    SHT30_I2C_Init->I2C_Ack = I2C_Ack_Enable;
+    SHT30_I2C_Init->I2C_AcknowledgedAddress= I2C_AcknowledgedAddress_7bit;
+    SHT30_I2C_Init->I2C_ClockSpeed = 100000;//100KHZ
 
-    I2C_Init(I2C2,Sth30_I2C_Init);
+    I2C_Init(I2C2,SHT30_I2C_Init);
 }
 
 /**
  * @author: Zale
- * @brief : STH30模块写入数据
+ * @brief : SHT30模块写入数据
  * @param : pBuffer 待写入数组指针
  * @param : Length 待写入数组长度
  * @retval: 0成功，其他为在不同阶段的超时失败 //大概只会在debug阶段用，确保能用就ok了
  * 
  */
-uint8_t Sth30_Write(char* pBuffer,uint8_t Length)
+uint8_t SHT30_Write(char* pBuffer,uint8_t Length)
 {
     uint8_t i=0;
     while(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY))
@@ -69,7 +73,7 @@ uint8_t Sth30_Write(char* pBuffer,uint8_t Length)
         return 2;
     };i=0;
     
-    I2C_Send7bitAddress(I2C2, STH30_I2C_ADDR, I2C_Direction_Transmitter);       //I2C写从机地址
+    I2C_Send7bitAddress(I2C2, SHT30_I2C_ADDR, I2C_Direction_Transmitter);       //I2C写从机地址
     while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))
     {
         i++;
@@ -102,12 +106,12 @@ uint8_t Sth30_Write(char* pBuffer,uint8_t Length)
 
 /**
  * @author: Zale
- * @brief : 读取Sth30模块数据
+ * @brief : 读取SHT30模块数据
  * @param : Length 读取的数据长度 
  * @param : pBuffer 读取数据存储到的数组
  * @retval : 0为成功，其他为不同阶段的超时失败 //大概只会在debug阶段用，确保能用就ok了
  */
-uint8_t Sth30_Read(char* pBuffer, uint8_t Length)
+uint8_t SHT30_Read(char* pBuffer, uint8_t Length)
 {
     uint8_t i;
     while(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY))
@@ -126,7 +130,7 @@ uint8_t Sth30_Read(char* pBuffer, uint8_t Length)
         return 1;
     };i=0;
     /* 2.设备地址·/写 */
-    I2C_Send7bitAddress(I2C2, STH30_I2C_ADDR, I2C_Direction_Transmitter);
+    I2C_Send7bitAddress(I2C2, SHT30_I2C_ADDR, I2C_Direction_Transmitter);
     while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))
     {
         i++;
@@ -143,7 +147,7 @@ uint8_t Sth30_Read(char* pBuffer, uint8_t Length)
         return 3;
     };i=0;
     /* 4.设备地址·/读 */
-    I2C_Send7bitAddress(I2C2, STH30_I2C_ADDR, I2C_Direction_Receiver);
+    I2C_Send7bitAddress(I2C2, SHT30_I2C_ADDR, I2C_Direction_Receiver);
     while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED))
     {
         i++;
