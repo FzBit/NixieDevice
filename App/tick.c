@@ -1,11 +1,7 @@
 /*
  * @Author: Frumig
  * @Date: 2020-02-06 19:33:48
-<<<<<<< HEAD
- * @LastEditTime: 2020-03-04 20:45:35
-=======
  * @LastEditTime : 2020-02-06 20:36:21
->>>>>>> 9cfbe10c618fd1f46aa0509d0de6a7b3b1f26c0f
  * @LastEditors: Please set LastEditors
  * @Description: 配置了使用SysTick的2个延时函数(待测试)
  * @reference：https://zhuanlan.zhihu.com/p/34289673
@@ -43,11 +39,7 @@ void delay_us(u32 n_us)
  * @Example： dealy_ms(10);   //延时10ms
  * @retval: None
  */
-<<<<<<< HEAD
-void delay_ms(u32 m_us)
-=======
-void delay_ms(u32 n_ms)
->>>>>>> 9cfbe10c618fd1f46aa0509d0de6a7b3b1f26c0f
+void delay_ms(u32 m_ms)
 {
     u32 temp;
     SysTick->LOAD = n_ms * FAC_MS;                  //装载
