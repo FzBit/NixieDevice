@@ -1,7 +1,11 @@
 /*
  * @Author: Frumig
  * @Date: 2020-02-02 22:45:42
+<<<<<<< HEAD
  * @LastEditTime: 2020-03-08 09:11:08
+=======
+ * @LastEditTime: 2020-03-09 22:20:08
+>>>>>>> 9cfbe10c618fd1f46aa0509d0de6a7b3b1f26c0f
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \NixieDevice-master\App\main.c
@@ -14,6 +18,7 @@
 
 int main()
 {
+<<<<<<< HEAD
   // SystemInit();
   // GPIO_Config_HC595();
 
@@ -42,6 +47,13 @@ int main()
     }
   }
 #endif
+=======
+  SystemInit();
+  GPIO_Config();
+
+  BEE_ON;
+>>>>>>> 9cfbe10c618fd1f46aa0509d0de6a7b3b1f26c0f
   
+  while(1);
   return 0;
 }

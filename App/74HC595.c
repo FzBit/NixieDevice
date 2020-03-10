@@ -1,8 +1,8 @@
 /*
  * @Author: Frumig
  * @Date: 2020-02-03 12:52:38
- * @LastEditTime : 2020-02-06 20:35:58
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-03-09 22:18:25
+ * @LastEditors: Please set LastEditors
  * @Description: 74HC595锁存器驱动 （待测试）
  * @reference:https://blog.csdn.net/k1ang/article/details/80397173
  * @FilePath: \NixieDevice-master\App\74HC595.c
@@ -24,7 +24,7 @@ void GPIO_Config_HC595()
                             GPIO_CLK_SHCP_0 | GPIO_CLK_SHCP_1 | GPIO_CLK_SHCP_2 | GPIO_CLK_SHCP_3 |
                             GPIO_CLK_STCP_0 | GPIO_CLK_STCP_1 | GPIO_CLK_STCP_2 | GPIO_CLK_STCP_3, ENABLE); //使能相应的端口时钟
 
-
+  
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;    //设置输出状态为推挽输出
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;   //设置引脚频率
 
@@ -64,6 +64,8 @@ void GPIO_Config_HC595()
     GPIO_InitStructure.GPIO_Pin = GPIO_PIN_STCP_3;
     GPIO_Init(GPIO_PORT_STCP_3, &GPIO_InitStructure);
 
+
+
     //将上述配置好的引脚全部拉低
     GPIO_ResetBits(GPIO_PORT_SHCP_0, GPIO_PIN_SHCP_0);
     GPIO_ResetBits(GPIO_PORT_SHCP_1, GPIO_PIN_SHCP_1);
@@ -77,6 +79,7 @@ void GPIO_Config_HC595()
     GPIO_ResetBits(GPIO_PORT_STCP_1, GPIO_PIN_STCP_1);
     GPIO_ResetBits(GPIO_PORT_STCP_2, GPIO_PIN_STCP_2);
     GPIO_ResetBits(GPIO_PORT_STCP_3, GPIO_PIN_STCP_3);
+    
 }
 
 /**
@@ -232,6 +235,7 @@ void HC595_Send_Multi_Byte(u8 *data, u8 len, HC595_n addr)
     for(u8 i = 0; i < len; i++){
         HC595_Send_Byte(data[i], addr);//
     }
+    
 
     HC595_CS(addr);
     //因为74HC595的OE引脚(使能引脚)在硬件上已接地，所以当把移位寄存器中的数据送入储存寄存器中是，锁存器的并行输出口就会立即改变状态
