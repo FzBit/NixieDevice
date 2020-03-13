@@ -1,7 +1,7 @@
 /*
  * @Author: Frumig
  * @Date: 2020-02-03 12:52:38
- * @LastEditTime: 2020-03-09 22:18:25
+ * @LastEditTime: 2020-03-13 15:13:03
  * @LastEditors: Please set LastEditors
  * @Description: 74HC595锁存器驱动 （待测试）
  * @reference:https://blog.csdn.net/k1ang/article/details/80397173
@@ -191,9 +191,9 @@ void HC595_Data(Status_Pin status, HC595_n addr)
 void HC595_CS(HC595_n addr)
 {
     HC595_Stcp(Low, addr);
-    delay_us(10);
+    delay_us(2);
     HC595_Stcp(High, addr);
-    delay_us(10);
+    delay_us(2);
 }
 
 /**
@@ -212,13 +212,13 @@ void HC595_Send_Byte(u8 byte, HC595_n addr)
         if(byte & 0x80)
             HC595_Data(High, addr);
         else
-            HC595_Data(High, addr);
+            HC595_Data(Low, addr);
 
         //通过一个是，高电平的脉冲使Data引脚的数据送入移位寄存器中
         HC595_Shcp(Low, addr);
-        delay_us(10);
+        delay_us(2);
         HC595_Shcp(High,addr);
-        delay_us(10);
+        delay_us(2);
 
         byte <<= 1; //左移一位；使数据依次输入到移位寄存器中
     }
