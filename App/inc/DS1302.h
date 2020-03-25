@@ -1,3 +1,11 @@
+/*
+ * @Author: Zale
+ * @Date: 2020-03-23 20:38:49
+ * @LastEditTime: 2020-03-25 23:08:55
+ * @LastEditors: Zale
+ * @Description: DS1302驱动
+ * @FilePath: \Nixie\App\inc\DS1302.h
+ */
 #ifndef __DS1302_H_
 #define __DS1302_H_
 

@@ -1,3 +1,12 @@
+/*
+ * @Author: Zale
+ * @Date: 2020-03-23 20:37:20
+ * @LastEditTime: 2020-03-25 23:10:10
+ * @LastEditors: Please set LastEditors
+ * @Description: DS1302驱动
+ * @FilePath: \Nixie\App\DS1302.c
+ */
+
 #include <DS1302.h>
 
 //---DS1302写入和读取时分秒的地址命令---//
