@@ -8,24 +8,15 @@
  */
 #include "public.h"    
 
-  char d[8]={0,0,0,0,0,0,0};
-  int k=9;
-  int f=0;
+char d[8]={0,0,0,0,0,0,0};
+int k=9;
+int f=0;
 
 int main()
 {
   SystemInit();
-  BEE_Config(); 
-  Key_Test_Init();
-  BEE_ON;
-  delay_ms(1000);
-  BEE_OFF;
+  DS1302_Init();
   while(1)
-  {
-    if(KEY_IN)
-      BEE_OFF;
-    else
-      BEE_ON;
-  }
+  DS1302_ReadTime();
   return 0;
 }

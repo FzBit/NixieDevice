@@ -1,4 +1,12 @@
 /*
+ * @Author: your name
+ * @Date: 2020-03-23 20:22:03
+ * @LastEditTime: 2020-03-25 22:39:02
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \Nixie\App\display.c
+ */
+/*
  * @Author: Frumig
  * @Date: 2020-02-11 21:10:40
  * @LastEditTime: 2020-03-17 22:23:31

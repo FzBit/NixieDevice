@@ -39,7 +39,7 @@ void delay_us(u32 n_us)
  * @Example： dealy_ms(10);   //延时10ms
  * @retval: None
  */
-void delay_ms(u32 m_ms)
+void delay_ms(u32 n_ms)
 {
     u32 temp;
     SysTick->LOAD = n_ms * FAC_MS;                  //装载

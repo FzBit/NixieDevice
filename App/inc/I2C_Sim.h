@@ -26,8 +26,8 @@
 
 typedef enum I2C_Sim_x
 {
-    I2C_Sim_0 = 0;      //模拟I2C0，SDA-A3 SCL-A4
-    I2C_Sim_1 = 1;      //模拟I2C1，SDA-A6 SCL-A7
+    I2C_Sim_0 = 0,      //模拟I2C0，SDA-A3 SCL-A4
+    I2C_Sim_1 = 1,      //模拟I2C1，SDA-A6 SCL-A7
 };
 
 
