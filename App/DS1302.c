@@ -1,7 +1,7 @@
 /*
  * @Author: Zale
  * @Date: 2020-03-23 20:37:20
- * @LastEditTime: 2020-03-25 23:10:10
+ * @LastEditTime: 2020-03-26 17:41:24
  * @LastEditors: Please set LastEditors
  * @Description: DS1302驱动
  * @FilePath: \Nixie\App\DS1302.c
@@ -17,6 +17,30 @@ uchar WRITE_RTC_ADDR[7] = {0x80, 0x82, 0x84, 0x86, 0x88, 0x8a, 0x8c};
 //---DS1302时钟初始化2016年5月7日星期六12点00分00秒。---//
 //---存储顺序是秒分时日月周年,存储格式是用BCD码---//
 uchar TIME[7] = {0, 0, 0x12, 0x07, 0x05, 0x06, 0x16};
+
+/**
+ * @Name: DS1302_Write
+ * @Author:	frumig
+ * LastEditor: Zale
+ * @Brief:  DS1302引脚配置
+ * @Param:  none
+ * @Example:  
+ * @Retval:  
+ */
+void DS1302_GPIO_Config()
+{
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+	GPIO_InitTypeDef GPIO_Cfg;
+	GPIO_Cfg.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Cfg.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Cfg.GPIO_Pin = GPIO_Pin_8;
+	GPIO_Init(GPIOB, &GPIO_Cfg); 
+
+	GPIO_Cfg.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Cfg.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Cfg.GPIO_Pin = GPIO_Pin_6;
+	GPIO_Init(GPIOB, &GPIO_Cfg); 
+}
 /**
  * Name：DS1302_Turn_IO
  * @Author: Zale
@@ -69,8 +93,8 @@ void DS1302_Write(uchar addr, uchar dat)
 	for (n=0; n<8; n++)	//开始传送八位地址命令
 	{
 		if (addr & 0x01)	//数据从低位开始传送
-			DSCLK_H;
-		else DSCLK_L;
+			DSIO_H;
+		else DSIO_L;
 		addr >>= 1;
 		DSCLK_H;	//数据在上升沿时，DS1302读取数据
 		delay_us(5);
@@ -79,9 +103,9 @@ void DS1302_Write(uchar addr, uchar dat)
 	}
 	for (n=0; n<8; n++)//写入8位数据
 	{
-		if (addr & 0x01)	//数据从低位开始传送
-			DSCLK_H;
-		else DSCLK_L;
+		if (dat & 0x01)	//数据从低位开始传送
+			DSIO_H;
+		else DSIO_L;
 		dat >>= 1;
 		DSCLK_H;//数据在上升沿时，DS1302读取数据
 		delay_us(5);
@@ -90,7 +114,7 @@ void DS1302_Write(uchar addr, uchar dat)
 	}
 
 	DSRST_L;//传送数据结束
-	delay_us(5);
+	delay_us(95);
 }
 
 /**
@@ -117,8 +141,8 @@ uchar DS1302_Read(uchar addr)
 	for(n=0; n<8; n++)//开始传送八位地址命令
 	{
 		if (addr & 0x01)	//数据从低位开始传送
-			DSCLK_H;
-		else DSCLK_L;
+			DSIO_H;
+		else DSIO_L;
 		addr >>= 1;
 		DSCLK_H;//数据在上升沿时，DS1302读取数据
 		delay_us(5);
@@ -126,7 +150,7 @@ uchar DS1302_Read(uchar addr)
 		delay_us(5);
 	}
 	DS1302_Turn_IO(1);
-	delay_us(5);
+	delay_us(15);
 	for(n=0; n<8; n++)	//读取8位数据
 	{
 		dat1 = DSIO_R;	//从最低位开始接收

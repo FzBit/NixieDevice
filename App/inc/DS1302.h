@@ -1,8 +1,8 @@
 /*
  * @Author: Zale
  * @Date: 2020-03-23 20:38:49
- * @LastEditTime: 2020-03-25 23:08:55
- * @LastEditors: Zale
+ * @LastEditTime: 2020-03-26 15:05:33
+ * @LastEditors: Please set LastEditors
  * @Description: DS1302驱动
  * @FilePath: \Nixie\App\inc\DS1302.h
  */
@@ -40,6 +40,7 @@ void DS1302_Write(uchar addr, uchar dat);
 uchar DS1302_Read(uchar addr);
 void DS1302_Init();
 void DS1302_ReadTime();
+void DS1302_GPIO_Config();
 
 //---加入全局变量--//
 extern uchar TIME[7];	//加入全局变量
